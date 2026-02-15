@@ -1,0 +1,18 @@
+# {{ rule.section }}{% if rule.subsection %} - {{ rule.subsection }}{% endif %}
+
+# Rule: {{ rule.title }}
+# Priority: {{ rule.priority }}
+# Scope: {{ rule.scope | join(', ') }}
+
+# {{ rule.content | comment_wrap }}
+
+{% if rule.examples %}
+# Examples:
+{% for example in rule.examples %}
+# {% if example.is_correct %}✅ Correct{% else %}❌ Incorrect{% endif %}:
+{% for line in example.code.split('\n') %}
+#   {{ line }}
+{% endfor %}
+
+{% endfor %}
+{% endif %}

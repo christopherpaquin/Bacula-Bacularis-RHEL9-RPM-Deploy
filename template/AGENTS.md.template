@@ -1,0 +1,591 @@
+# AGENTS Guidelines for [Your Project Name]
+
+This file provides workflow instructions for AI coding agents working on this project.
+For universal engineering standards, see CONTEXT.md.
+
+---
+
+## 1. Project Overview
+
+**Project name:** [Your Project Name]
+
+**Tech stack:**
+- [Language/Framework 1]
+- [Language/Framework 2]
+- [Key dependencies]
+
+**Repository structure:**
+```text
+[Describe your main directories and their purposes]
+```
+
+---
+
+## 2. Development Environment Setup
+
+### Initial Setup
+
+```bash
+# Clone repository
+git clone <repo-url>
+cd <project-name>
+
+# Install dependencies
+[your package manager install command]
+
+# Setup environment
+cp .env.example .env
+# Edit .env with your credentials
+
+# Install pre-commit hooks
+./scripts/setup-precommit.sh
+
+# [Any other setup steps]
+```
+
+### Running the Application
+
+```bash
+# Development mode
+[your dev command, e.g., npm run dev, python manage.py runserver]
+
+# Production build (if applicable)
+[your build command]
+
+# Access at: [URL, e.g., http://localhost:3000]
+```
+
+---
+
+## 3. Testing Instructions
+
+### Running Tests
+
+```bash
+# Run all tests
+[your test command, e.g., npm test, pytest, go test ./...]
+
+# Run specific test file
+[command to run single test]
+
+# Run with coverage
+[coverage command]
+
+# Watch mode (if applicable)
+[watch command]
+```
+
+### Test Requirements
+
+- All new features must include tests
+- Maintain minimum [X]% code coverage
+- Tests must pass before merging to main
+- Fix any failing tests before committing
+
+### CI/CD Testing
+
+- GitHub Actions runs tests on every PR
+- All CI jobs must pass before merge
+- Check `.github/workflows/ci.yaml` for full CI plan
+
+---
+
+## 4. Common Development Tasks
+
+### Adding a New Feature
+
+```bash
+# 1. Create feature branch
+git checkout -b feature/feature-name
+
+# 2. Implement feature
+[specific guidance for your project]
+
+# 3. Add tests
+[where to add tests, naming conventions]
+
+# 4. Update documentation
+[which docs to update]
+
+# 5. Run checks
+pre-commit run --all-files
+[your test command]
+
+# 6. Commit and push
+git add -A
+git commit -m "feat: description"
+git push origin feature/feature-name
+
+# 7. Create pull request
+```
+
+### Fixing a Bug
+
+```bash
+# 1. Create bug fix branch
+git checkout -b fix/bug-description
+
+# 2. Reproduce bug with test (if possible)
+[guidance on test location]
+
+# 3. Fix bug
+[specific guidance]
+
+# 4. Verify fix
+[your test command]
+
+# 5. Run checks
+pre-commit run --all-files
+
+# 6. Commit and push
+git commit -m "fix: description"
+git push origin fix/bug-description
+```
+
+### Working with Database (if applicable)
+
+```bash
+# Run migrations
+[migration command]
+
+# Create new migration
+[migration creation command]
+
+# Reset database (dev only)
+[reset command]
+
+# Seed data
+[seed command]
+```
+
+### Working with Dependencies
+
+```bash
+# Add new dependency
+[add command, e.g., npm install, pip install]
+
+# Update dependencies
+[update command]
+
+# Check for vulnerabilities
+[security check command]
+
+# Clean install
+[clean install command]
+```
+
+---
+
+## 5. Code Style and Standards
+
+### Language-Specific Guidelines
+
+**[Language 1]:**
+- [Key conventions, e.g., naming, file organization]
+- [Linting tool and config location]
+- [Formatting tool and config location]
+
+**[Language 2]:**
+- [Key conventions]
+- [Tools used]
+
+### Pre-commit Checks
+
+**Automatically enforced:**
+- Code formatting
+- Linting
+- Secret detection
+- [Project-specific checks]
+
+**Run manually before committing:**
+```bash
+pre-commit run --all-files
+```
+
+**Managing pre-commit hooks:**
+```bash
+# List all hooks
+./scripts/manage-precommit-hooks.sh list
+
+# Disable expensive check during dev
+./scripts/manage-precommit-hooks.sh disable [hook-id]
+
+# Re-enable before committing
+./scripts/manage-precommit-hooks.sh enable [hook-id]
+```
+
+---
+
+## 6. Git Workflow
+
+### Branch Naming Convention
+
+```text
+feature/description   - New features
+fix/description       - Bug fixes
+docs/description      - Documentation only
+refactor/description  - Code refactoring
+test/description      - Adding/updating tests
+chore/description     - Maintenance tasks
+```
+
+### Commit Message Format
+
+```text
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+**Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+
+**Examples:**
+```text
+feat(auth): Add OAuth2 login support
+fix(api): Handle null response in user endpoint
+docs(readme): Update installation instructions
+```
+
+**CRITICAL - Never commit secrets in messages!**
+
+---
+
+## 7. Pull Request Process
+
+### PR Title Format
+
+```text
+[area] Title
+
+Examples:
+- [auth] Add OAuth2 support
+- [api] Fix null pointer in user handler
+- [docs] Update API documentation
+```
+
+### PR Checklist
+
+Before creating PR:
+
+- [ ] Code follows project style guidelines
+- [ ] All tests pass locally
+- [ ] Pre-commit checks pass
+- [ ] New tests added for new features
+- [ ] Documentation updated (if needed)
+- [ ] No secrets or credentials committed
+- [ ] Commit messages follow format
+- [ ] [Project-specific checklist items]
+
+### PR Description Template
+
+```markdown
+## Description
+[What changed and why]
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change
+- [ ] Documentation update
+
+## Testing
+[How to test these changes]
+
+## Screenshots (if applicable)
+[Add screenshots]
+
+## Related Issues
+Closes #[issue number]
+```
+
+---
+
+## 8. Project-Specific Guidelines
+
+### [Feature Area 1]
+
+**Location:** [directory/files]
+
+**How it works:**
+- [Brief explanation]
+
+**Common tasks:**
+- [Task 1 with commands]
+- [Task 2 with commands]
+
+**Gotchas:**
+- [Things to watch out for]
+
+### [Feature Area 2]
+
+**Location:** [directory/files]
+
+**How it works:**
+- [Brief explanation]
+
+**Common tasks:**
+- [Task 1]
+- [Task 2]
+
+---
+
+## 9. Debugging and Troubleshooting
+
+### Common Issues
+
+**Problem:** [Issue description]
+**Solution:**
+```bash
+[Commands or steps to fix]
+```
+
+**Problem:** [Another issue]
+**Solution:**
+```bash
+[Fix]
+```
+
+### Debugging Tools
+
+**[Tool 1]:**
+```bash
+[How to use for debugging]
+```
+
+**[Tool 2]:**
+```bash
+[How to use]
+```
+
+### Logging
+
+**View logs:**
+```bash
+[Log viewing command]
+```
+
+**Log levels:**
+- DEBUG: [when to use]
+- INFO: [when to use]
+- ERROR: [when to use]
+
+---
+
+## 10. Deployment (if applicable)
+
+### Staging Deployment
+
+```bash
+# [Staging deployment steps]
+```
+
+### Production Deployment
+
+```bash
+# [Production deployment steps]
+# CAUTION: [Important warnings]
+```
+
+### Environment Variables
+
+**Required variables:**
+- `VAR_NAME`: [Description]
+- `ANOTHER_VAR`: [Description]
+
+**See `.env.example` for all variables.**
+
+---
+
+## 11. API Documentation (if applicable)
+
+**API docs location:** [URL or file path]
+
+**Authentication:**
+- [How to authenticate]
+
+**Key endpoints:**
+- `GET /api/endpoint1` - [Description]
+- `POST /api/endpoint2` - [Description]
+
+**Testing API:**
+```bash
+# [Example curl commands or tool usage]
+```
+
+---
+
+## 12. Security Considerations
+
+### Secrets Management
+
+**NEVER commit:**
+- API keys, tokens, passwords
+- Private keys, certificates
+- Database credentials
+- [Project-specific secrets]
+
+**How to handle secrets:**
+1. Use environment variables (`.env` file, gitignored)
+2. For production: [Secret management solution, e.g., AWS Secrets Manager]
+3. Provide `.env.example` with placeholders
+
+### Security Scanning
+
+- Gitleaks: Scans git history for secrets (CI)
+- Semgrep: Static analysis for vulnerabilities (CI)
+- OSV-Scanner: Dependency vulnerability scanning (CI)
+- [Project-specific security tools]
+
+---
+
+## 13. Performance Considerations
+
+### [Performance Area 1]
+
+**Best practices:**
+- [Practice 1]
+- [Practice 2]
+
+**Monitoring:**
+- [Tool or method]
+
+### [Performance Area 2]
+
+**Optimization tips:**
+- [Tip 1]
+- [Tip 2]
+
+---
+
+## 14. Useful Commands Reference
+
+### Daily Development
+
+```bash
+# Start dev server
+[command]
+
+# Run tests
+[command]
+
+# Run linter
+[command]
+
+# Format code
+[command]
+
+# Check pre-commit
+pre-commit run --all-files
+```
+
+### Database (if applicable)
+
+```bash
+# Run migrations
+[command]
+
+# Create migration
+[command]
+
+# Reset database
+[command]
+```
+
+### Deployment (if applicable)
+
+```bash
+# Deploy to staging
+[command]
+
+# Deploy to production
+[command]
+```
+
+---
+
+## 15. Team Conventions
+
+### Code Review Guidelines
+
+**Reviewers check for:**
+- [ ] Code quality and readability
+- [ ] Test coverage
+- [ ] Documentation updates
+- [ ] Security issues
+- [ ] Performance implications
+- [ ] [Project-specific review points]
+
+**Review turnaround:** [Expected timeframe]
+
+### Communication
+
+**For questions:**
+- [Communication channel, e.g., Slack channel, Discord]
+
+**For bugs:**
+- [Issue tracker location]
+
+**For features:**
+- [Feature request process]
+
+---
+
+## 16. Resources
+
+**Documentation:**
+- [Project docs location]
+- [API docs]
+- [Architecture docs]
+
+**Tools:**
+- [Development tool 1]
+- [Development tool 2]
+
+**Related Projects:**
+- [Related project 1]
+- [Related project 2]
+
+---
+
+## 17. Quick Reference
+
+**Essential commands:**
+```bash
+# Setup
+./scripts/setup-precommit.sh
+
+# Development
+[dev command]
+
+# Testing
+[test command]
+
+# Pre-commit
+pre-commit run --all-files
+
+# Commit
+git add -A
+git commit -m "type: description"
+git push
+```
+
+**Essential files:**
+- `AGENTS.md` - This file (workflow)
+- `CONTEXT.md` - Standards (rules)
+- `CONTRIBUTING.md` - Contribution guidelines
+- `README.md` - Project overview
+- `.env.example` - Environment template
+
+---
+
+**Questions?** [How to get help - contact info, docs link, etc.]
+
+---
+
+**Note:** This is a template. Customize it for your specific project by:
+1. Replacing [bracketed placeholders] with actual values
+2. Removing sections that don't apply
+3. Adding project-specific sections as needed
+4. Keeping it up to date as the project evolves

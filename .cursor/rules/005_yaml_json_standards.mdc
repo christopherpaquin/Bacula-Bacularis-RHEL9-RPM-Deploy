@@ -1,0 +1,121 @@
+---
+description: YAML and JSON formatting standards
+priority: 30
+globs:
+  - "**/*.yaml"
+  - "**/*.json"
+keywords:
+  - yaml
+  - json
+---
+
+# YAML and JSON Standards
+
+## YAML Standards
+
+### File Extension
+
+- ✅ Use `.yaml` extension
+- ❌ NEVER use `.yml`
+
+### Formatting
+
+- **Indentation**: 2 spaces (never tabs)
+- **Style**: Block-style preferred
+- **Keys**: Use `snake_case`
+- **Lists**: One item per line
+
+✅ **CORRECT**:
+```yaml
+log_level: "info"
+enable_feature: false
+retry_count: 3
+servers:
+  - host: example1.local
+    port: 443
+  - host: example2.local
+    port: 443
+```
+
+### Quote Ambiguous Values
+
+Always quote values that could be misinterpreted:
+
+✅ **CORRECT**:
+```yaml
+enabled: "yes"  # Quote to prevent boolean interpretation
+version: "1.0"  # Quote to prevent float interpretation
+status: "on"    # Quote to prevent boolean interpretation
+```
+
+### Use Explicit null
+
+✅ **CORRECT**:
+```yaml
+optional_field: null  # Explicit
+```
+
+❌ **WRONG**:
+```yaml
+optional_field:  # Implicit empty
+```
+
+## JSON Standards
+
+### Formatting
+
+- **Indentation**: 2 spaces
+- **Keys**: Use `snake_case`
+- **No comments** (JSON doesn't support them)
+- **No trailing commas**
+
+✅ **CORRECT**:
+```json
+{
+  "log_level": "info",
+  "enable_feature": false,
+  "retry_count": 3,
+  "servers": [
+    {
+      "host": "example1.local",
+      "port": 443
+    }
+  ]
+}
+```
+
+### Use Explicit Types
+
+✅ **CORRECT**:
+```json
+{
+  "enabled": true,
+  "count": 0,
+  "value": null
+}
+```
+
+❌ **WRONG**:
+```json
+{
+  "enabled": "true",  // String instead of boolean
+  "count": "0",       // String instead of number
+  "value": ""         // Empty string instead of null
+}
+```
+
+## Comments
+
+### YAML Comments
+
+```yaml
+# Explain WHY, not WHAT
+retry_count: 3  # Retry 3 times to handle transient failures
+```
+
+### JSON Comments
+
+JSON doesn't support comments. If you need to document, use:
+- Separate README or docs file
+- Schema file with descriptions
+- Inline `_comment` fields (if appropriate)

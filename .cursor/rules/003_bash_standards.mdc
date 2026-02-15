@@ -1,0 +1,134 @@
+---
+description: Shell script coding standards
+priority: 30
+globs:
+  - "**/*.sh"
+  - "**/scripts/**"
+keywords:
+  - bash
+  - shell
+  - script
+---
+
+# Bash Standards
+
+## Required Header
+
+ALL bash scripts MUST start with:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+```
+
+**Why:**
+- `set -e`: Exit on any command failure
+- `set -u`: Exit on undefined variable usage
+- `set -o pipefail`: Exit on pipe failures
+
+## Variable Quoting
+
+ALWAYS quote variables to prevent word splitting and globbing.
+
+❌ **WRONG** (unsafe):
+```bash
+rm -rf $USER_DIR/temp
+cd $PROJECT_PATH
+echo $MESSAGE
+```
+
+✅ **CORRECT** (safe):
+```bash
+rm -rf "${USER_DIR}/temp"
+cd "${PROJECT_PATH}"
+echo "${MESSAGE}"
+```
+
+## Input Validation
+
+Check all inputs at the start of the script:
+
+✅ **CORRECT**:
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Check required argument
+if [[ -z "${1:-}" ]]; then
+  echo "Error: Missing required argument" >&2
+  echo "Usage: $0 <filename>" >&2
+  exit 2
+fi
+
+FILENAME="$1"
+
+# Validate file exists
+if [[ ! -f "${FILENAME}" ]]; then
+  echo "Error: File not found: ${FILENAME}" >&2
+  exit 1
+fi
+```
+
+## Function Usage
+
+Use functions for reusable logic:
+
+✅ **CORRECT**:
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Function with clear purpose
+validate_directory() {
+  local dir="$1"
+  if [[ ! -d "${dir}" ]]; then
+    echo "Error: Directory not found: ${dir}" >&2
+    return 1
+  fi
+}
+
+main() {
+  local target_dir="${1:-}"
+  validate_directory "${target_dir}"
+  # ... rest of logic
+}
+
+main "$@"
+```
+
+## Cleanup with trap
+
+Use `trap` for cleanup when modifying system state:
+
+✅ **CORRECT**:
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+TEMP_DIR=""
+
+cleanup() {
+  if [[ -n "${TEMP_DIR}" && -d "${TEMP_DIR}" ]]; then
+    rm -rf "${TEMP_DIR}"
+  fi
+}
+
+trap cleanup EXIT
+
+TEMP_DIR=$(mktemp -d)
+# ... use temp dir
+```
+
+## Exit Codes
+
+Use standard exit codes:
+- `0`: Success
+- `1`: General failure
+- `2`: Invalid usage/input
+- `3`: Missing dependency
+
+## Never Use
+
+❌ NEVER use `eval` - it's a security risk
+❌ NEVER use unquoted variables
+❌ NEVER ignore errors silently

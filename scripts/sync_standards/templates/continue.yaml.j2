@@ -1,0 +1,17 @@
+title: "{{ rule.title }}"
+description: |
+  {{ rule.content | indent(2) }}
+{% if rule.examples %}
+examples:
+{% for example in rule.examples %}
+  - type: {% if example.is_correct %}"correct"{% else %}"incorrect"{% endif %}
+
+    code: |
+{{ example.code | indent(6) }}
+{% endfor %}
+{% endif %}
+priority: {{ rule.priority }}
+scope:
+{% for glob in rule.scope %}
+  - "{{ glob }}"
+{% endfor %}

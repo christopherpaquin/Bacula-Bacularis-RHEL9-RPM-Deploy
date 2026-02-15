@@ -1,0 +1,18 @@
+# Development dependencies for AI Guardrails repository
+# Install: pip install -r requirements-dev.txt
+
+# Pre-commit framework and hooks
+pre-commit>=3.6.0
+
+# Python linting and formatting (used by pre-commit)
+ruff>=0.8.0
+
+# Markdown linting (used by pre-commit)
+pymarkdown>=0.9.25
+
+# Testing
+pytest>=8.0.0
+pytest-cov>=4.1.0
+
+# Shell script validation (pre-commit will install these automatically)
+# shellcheck-py>=0.10.0

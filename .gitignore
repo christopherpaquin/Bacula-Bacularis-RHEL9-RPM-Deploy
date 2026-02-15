@@ -1,0 +1,158 @@
+###############################################################################
+# AI Guardrails Repository - .gitignore
+#
+# Comprehensive ignore patterns for secrets, artifacts, and generated files.
+# Based on github-ai-engineering-framework standards.
+###############################################################################
+
+# ---------------------------------------------------------------------------
+# Environment variables / secrets
+# ---------------------------------------------------------------------------
+
+# Standard environment files
+.env
+.env.*
+!.env.example
+
+# Alternative env naming
+vars.env
+vars.env.*
+!vars.env.example
+
+# Generic secrets
+secrets.*
+*.secret
+*.secrets
+
+# ---------------------------------------------------------------------------
+# API Keys and Access Tokens
+# ---------------------------------------------------------------------------
+*api*key*
+*apikey*
+*access*token*
+*oauth*token*
+*refresh*token*
+*pat*
+*personal*access*token*
+
+# ---------------------------------------------------------------------------
+# Cloud Provider Credentials
+# ---------------------------------------------------------------------------
+.aws/
+.gcp/
+.azure/
+.terraform/
+terraform.tfvars
+terraform.tfvars.json
+*.tfvars
+*.tfvars.json
+
+# GCP service account keys
+*service-account*.json
+*gcp*.json
+*gcloud*.json
+
+# AWS credentials
+.aws/credentials
+.aws/config
+aws-credentials.json
+
+# Azure credentials
+.azure/credentials
+azure-credentials.json
+
+# ---------------------------------------------------------------------------
+# Cryptographic Private Keys
+# ---------------------------------------------------------------------------
+# SSH keys
+id_rsa
+id_ed25519
+id_ecdsa
+id_dsa
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+
+# TLS/SSL certificates (private keys only)
+!*.pub
+!*.public
+
+# Signing keys
+*.signing.key
+*.private.key
+
+# ---------------------------------------------------------------------------
+# Service Account Credentials
+# ---------------------------------------------------------------------------
+*service-account*.json
+*service-account*.yaml
+*service-account*.yml
+*credentials*.json
+*credentials*.yaml
+*credentials*.yml
+
+# ---------------------------------------------------------------------------
+# Webhook Secrets
+# ---------------------------------------------------------------------------
+*webhook*secret*
+*webhook*signing*
+*hook*secret*
+
+# ---------------------------------------------------------------------------
+# Generated logs and caches
+# ---------------------------------------------------------------------------
+*.log
+!artifacts/pre-commit.log
+*.cache
+*.tmp
+
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.eggs/
+.venv/
+venv/
+.env-venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---------------------------------------------------------------------------
+# Pre-commit / tooling artifacts
+# ---------------------------------------------------------------------------
+.pre-commit-cache/
+.precommit/
+artifacts/
+
+# ---------------------------------------------------------------------------
+# Aider runtime
+# ---------------------------------------------------------------------------
+.aider.chat.history.md
+.aider.tags.cache.v3/
+
+# ---------------------------------------------------------------------------
+# OS / editor
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ---------------------------------------------------------------------------
+# Build / runtime output
+# ---------------------------------------------------------------------------
+dist/
+build/
+out/
+coverage/
+*.egg-info/

@@ -1,0 +1,32 @@
+---
+priority: {{ rule.priority }}
+globs:
+{% for glob in rule.scope %}
+  - "{{ glob if glob != 'all' else '**/*' }}"
+{% endfor %}
+---
+
+# {{ rule.section }}{% if rule.subsection %}: {{ rule.subsection }}{% endif %}
+
+## {{ rule.title }}
+
+{{ rule.content | make_imperative }}
+
+{% if rule.examples %}
+{% for example in rule.examples %}
+{% if example.is_correct %}
+✅ **CORRECT:**
+
+```{{ example.language }}
+{{ example.code }}
+```
+{% else %}
+❌ **WRONG:**
+
+```{{ example.language }}
+{{ example.code }}
+```
+{% endif %}
+
+{% endfor %}
+{% endif %}

@@ -1,0 +1,124 @@
+name: AI Guardrails Project
+###############################################################################
+# Continue.dev Configuration
+#
+# AI coding assistant configuration for Continue.dev
+# See: https://docs.continue.dev/reference/config
+###############################################################################
+
+version: 1.0.0
+schema: v1
+# Rules are concatenated into system messages for Agent/Chat/Edit
+rules:
+  # Reference the canonical standards document
+  - uses: file://CONTEXT.md
+  # Reference contribution guidelines
+  - uses: file://CONTRIBUTING.md
+  # Core security rules (inline for critical requirements)
+  - |
+    CRITICAL SECURITY RULES (HIGHEST PRIORITY):
+
+    1. NEVER commit secrets:
+       - API keys, tokens, passwords, credentials
+       - Private keys (SSH, TLS, .pem, .key files)
+       - Cloud credentials (AWS, GCP, Azure)
+
+    2. ALWAYS use environment variables:
+       - Load from .env files (gitignored)
+       - Provide .env.example with placeholders
+       - Never hardcode credentials
+
+    3. Check .gitignore before creating files
+
+    4. Run pre-commit checks before committing:
+       - Use: ./scripts/setup-precommit.sh
+       - Verify: pre-commit run --all-files
+       - Never suggest: git commit --no-verify
+  # Coding standards (inline)
+  - |
+    CODING STANDARDS:
+
+    Bash Scripts:
+    - Always use: #!/usr/bin/env bash
+    - Always use: set -euo pipefail
+    - Quote all variables: "${VAR}"
+    - Validate inputs before use
+
+    Python:
+    - Use type hints for all functions
+    - Include docstrings for public functions
+    - No global mutable state
+    - Prefer dataclasses over dicts
+
+    YAML/JSON:
+    - YAML: 2-space indent, .yaml extension
+    - JSON: 2-space indent, no trailing commas
+
+    Documentation:
+    - Update docs when changing functionality
+    - Include usage examples
+    - Keep README.md current
+# Models configuration (optional - user can configure their preferred models)
+models:
+# Example configurations - users should customize
+# - name: Claude
+#   provider: anthropic
+#   model: claude-3-5-sonnet-20241022
+#   roles: [chat, edit, apply]
+#   chatOptions:
+#     baseSystemMessage: |
+#       You are an AI assistant following strict engineering standards.
+#       Read CONTEXT.md and CONTRIBUTING.md for requirements.
+
+# - name: GPT-4
+#   provider: openai
+#   model: gpt-4o
+#   roles: [chat, edit]
+
+# Context providers
+context:
+  - provider: diff
+  - provider: file
+  - provider: code
+  - provider: terminal
+# Custom prompts for common tasks
+prompts:
+  - name: review
+    description: Review code for security and quality issues
+    invokable: true
+    prompt: |
+      Review this code for:
+      1. Security issues (secrets, SQL injection, XSS, etc.)
+      2. Code quality (formatting, naming, error handling)
+      3. Standards compliance (check CONTEXT.md requirements)
+
+      Provide specific, actionable feedback.
+  - name: commit
+    description: Generate a commit message
+    invokable: true
+    prompt: |
+      Analyze the staged changes and generate a commit message.
+
+      Requirements:
+      - Use conventional commit format if applicable
+      - Be concise (1-2 sentences)
+      - Focus on "why" not just "what"
+      - Do NOT include secrets, IPs, or credentials
+  - name: test
+    description: Generate unit tests
+    invokable: true
+    prompt: |
+      Generate comprehensive unit tests for this code.
+
+      Requirements:
+      - Use pytest for Python, Jest for JS/TS
+      - Cover edge cases and error conditions
+      - Include docstrings/comments
+      - Follow existing test patterns in tests/ directory
+
+# Documentation sites to index (optional)
+# docs:
+#   - name: Python
+#     startUrl: https://docs.python.org/3/
+#   - name: TypeScript
+#     startUrl: https://www.typescriptlang.org/docs/

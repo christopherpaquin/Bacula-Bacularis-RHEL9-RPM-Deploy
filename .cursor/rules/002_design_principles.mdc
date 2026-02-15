@@ -1,0 +1,87 @@
+---
+description: Core design principles for all code
+priority: 20
+globs:
+  - "**/*.sh"
+  - "**/*.py"
+  - "**/*.yaml"
+  - "**/*.json"
+  - "**/*.md"
+---
+
+# Design Principles
+
+ALWAYS follow these principles when writing code:
+
+## Core Principles
+
+1. **Correctness over cleverness**
+   - Write clear, understandable code
+   - Avoid clever one-liners that sacrifice readability
+
+2. **Explicit behavior over implicit assumptions**
+   - Never assume environment configuration
+   - Document all dependencies and requirements
+
+3. **Idempotent and safe by default**
+   - Scripts must be safe to run multiple times
+   - Detect existing state before making changes
+
+4. **Fail loudly, clearly, and early**
+   - Check inputs at the start
+   - Provide clear error messages
+   - Exit with appropriate codes
+
+5. **Prefer boring, maintainable solutions**
+   - Use standard, well-known patterns
+   - Avoid experimental or obscure approaches
+
+6. **Easily installed and uninstalled**
+   - Provide clear setup and teardown procedures
+   - Document all side effects
+
+## Anti-patterns to AVOID
+
+❌ **Clever code that's hard to understand**
+```python
+# BAD: Clever but unclear
+result = [x for x in range(100) if not any(x % i == 0 for i in range(2, x))]
+```
+
+✅ **Clear, maintainable code**
+```python
+# GOOD: Clear and understandable
+def is_prime(n):
+    """Check if n is a prime number."""
+    if n < 2:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+primes = [x for x in range(100) if is_prime(x)]
+```
+
+❌ **Implicit assumptions**
+```bash
+# BAD: Assumes USER_HOME is set
+cd $USER_HOME/config
+```
+
+✅ **Explicit validation**
+```bash
+# GOOD: Check and fail clearly
+if [[ -z "${USER_HOME:-}" ]]; then
+  echo "Error: USER_HOME not set" >&2
+  exit 2
+fi
+cd "${USER_HOME}/config"
+```
+
+## Security is Paramount
+
+- Never log or echo secrets
+- Never hardcode credentials
+- Check `.gitignore` before creating files
+- Use `.env` files for configuration (never commit them)

@@ -1,0 +1,21 @@
+## {{ rule.title }}
+
+{{ rule.content | summarize }}
+
+{% if rule.examples %}
+```{{ rule.examples[0].language }}
+{% for example in rule.examples %}
+{% if not example.is_correct %}
+# ❌ Bad
+{{ example.code }}
+
+{% endif %}
+{% endfor %}
+{% for example in rule.examples %}
+{% if example.is_correct %}
+# ✅ Good
+{{ example.code }}
+{% endif %}
+{% endfor %}
+```
+{% endif %}

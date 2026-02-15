@@ -1,0 +1,28 @@
+### {{ rule.title }}
+
+{{ rule.content | make_conversational }}
+{% if rule.examples %}
+
+**Why this matters:**
+{{ rule | generate_reasoning }}
+{% for example in rule.examples %}
+
+{% if example.is_correct %}
+✅ **Do this:**
+
+```{{ example.language }}
+{{ example.code }}
+```
+
+This is the correct approach because it {{ rule | explain_correct }}.
+{% else %}
+❌ **Don't do this:**
+
+```{{ example.language }}
+{{ example.code }}
+```
+
+This is incorrect because it {{ rule | explain_incorrect }}.
+{% endif %}
+{% endfor %}
+{% endif %}

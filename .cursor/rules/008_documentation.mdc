@@ -1,0 +1,156 @@
+---
+description: Documentation requirements and standards
+priority: 40
+globs:
+  - "**/*.md"
+  - "**/README.md"
+  - "**/docs/**"
+---
+
+# Documentation Standards
+
+## README.md Requirements
+
+Every project MUST have a README.md with:
+
+### Required Sections
+
+1. **Title and Description**
+   - Clear project name
+   - One-sentence description
+   - Badges (license, version, status)
+
+2. **Requirements/Dependencies**
+   - OS requirements
+   - Python/Node version
+   - Required tools
+
+3. **Installation**
+   - Step-by-step setup instructions
+   - Include pre-commit setup
+
+4. **Usage**
+   - Basic examples
+   - Command syntax
+   - Common use cases
+
+5. **Configuration**
+   - Environment variables
+   - Config files
+   - Options and flags
+
+6. **Troubleshooting**
+   - Common issues and solutions
+   - Where to find logs
+   - How to get help
+
+7. **Security**
+   - How secrets are handled
+   - Security best practices
+   - Reporting vulnerabilities
+
+8. **License**
+   - License type (e.g., Apache 2.0)
+   - Copyright information
+
+## Visual Standards
+
+### Use Emojis for Visual Hierarchy
+
+✅ **GOOD**:
+```markdown
+## 🎯 Overview
+## 📦 Installation
+## ⚙️ Configuration
+## 🔒 Security
+```
+
+### Status Indicators
+
+Use clear status indicators:
+- ✅ Implemented / Working / Good
+- ❌ Not implemented / Broken / Bad
+- ⚠️ Warning / Caution / Partial
+
+### Tables for Structured Data
+
+✅ **GOOD**:
+```markdown
+| Feature | Status | Priority |
+|---------|--------|----------|
+| Auth    | ✅ Done | High    |
+| API     | ⚠️ Beta | Medium  |
+| UI      | ❌ Todo | Low     |
+```
+
+### Code Examples with Language Tags
+
+Always specify the language:
+
+✅ **GOOD**:
+````markdown
+```bash
+./scripts/setup.sh
+```
+
+```python
+import os
+api_key = os.environ.get("API_KEY")
+```
+````
+
+❌ **WRONG** (no language tag):
+````markdown
+```
+./scripts/setup.sh
+```
+````
+
+## Comments in Code
+
+### Explain WHY, Not WHAT
+
+❌ **WRONG** (obvious):
+```python
+# Increment counter
+counter += 1
+```
+
+✅ **GOOD** (explains why):
+```python
+# Retry on transient failures (network timeouts, etc.)
+counter += 1
+```
+
+## Documentation Updates
+
+### When to Update Docs
+
+Update documentation when you:
+- Add new features
+- Change behavior
+- Modify configuration
+- Add dependencies
+- Change requirements
+
+### The Rule
+
+**If code changes, documentation MUST change too.**
+
+## Runbooks for Operational Tools
+
+Tools that run in production need `docs/runbook.md`:
+
+Required sections:
+- Normal operation
+- How to troubleshoot
+- Common failure modes
+- Recovery procedures
+- Monitoring and alerting
+- Escalation procedures
+
+## Keep It Current
+
+❌ **DO NOT** leave outdated documentation
+❌ **DO NOT** write documentation "later"
+✅ **UPDATE** docs as you write code

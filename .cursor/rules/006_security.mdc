@@ -1,0 +1,124 @@
+---
+description: Security requirements and secret handling
+priority: 100
+globs:
+  - "**/*"
+keywords:
+  - secret
+  - password
+  - key
+  - token
+  - credential
+  - api
+---
+
+# Security Standards (HIGHEST PRIORITY)
+
+## CRITICAL RULE: Never Commit Secrets
+
+**Secrets include:**
+- API keys (OpenAI, Stripe, AWS, etc.)
+- Access tokens and OAuth tokens
+- Passwords and credentials
+- Private keys (SSH, TLS, signing keys)
+- Cloud provider credentials
+- Webhook secrets
+- ANY high-entropy string that could authenticate
+
+## Before Creating Files
+
+ALWAYS check `.gitignore` before creating files:
+
+```bash
+# Check if file would be ignored
+git check-ignore -v .env
+```
+
+## Secret Storage
+
+✅ **CORRECT** way to handle secrets:
+
+1. **Store in `.env` file** (gitignored):
+```bash
+# .env (NEVER commit this)
+OPENAI_API_KEY=sk-abc123...
+DATABASE_PASSWORD=secret123
+```
+
+2. **Provide example file** (commit this):
+```bash
+# .env.example (SAFE to commit)
+OPENAI_API_KEY=your_openai_api_key_here
+DATABASE_PASSWORD=your_database_password_here
+```
+
+3. **Reference in code**:
+```python
+import os
+api_key = os.environ.get("OPENAI_API_KEY")
+if not api_key:
+    raise ValueError("OPENAI_API_KEY environment variable required")
+```
+
+## What NEVER to Do
+
+❌ **NEVER hardcode secrets**:
+```python
+# WRONG - DO NOT DO THIS
+api_key = "sk-abc123..."  # NEVER!
+password = "secret123"    # NEVER!
+```
+
+❌ **NEVER log secrets**:
+```python
+# WRONG
+logger.info(f"Using API key: {api_key}")  # NEVER!
+```
+
+❌ **NEVER put secrets in commit messages**:
+```bash
+# WRONG
+git commit -m "Add API key sk-abc123..."  # NEVER!
+```
+
+## Files That Must Be Gitignored
+
+- `.env`, `.env.*` (except `.env.example`)
+- `*.pem`, `*.key`, `*.p12` (private keys)
+- `credentials.json`, `secrets.yaml`
+- Any file containing authentication material
+
+## Example Placeholders
+
+When providing examples, use obvious placeholders:
+
+✅ **GOOD placeholders**:
+```
+YOUR_API_KEY_HERE
+example_password_123
+sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```
+
+## Security Checklist
+
+Before committing ANY file:
+- [ ] Does this file contain secrets? (If yes, STOP)
+- [ ] Is this file in `.gitignore`? (Check explicitly)
+- [ ] Have I used example placeholders only?
+- [ ] Are credentials loaded from environment?
+
+## Defense in Depth
+
+This project uses 3 layers of secret detection:
+1. **Pre-commit hook**: Local detection before commit
+2. **Commit message validation**: Prevents secrets in messages
+3. **CI scanning**: Gitleaks scans full git history
+
+**NEVER attempt to bypass these protections.**
+
+## If You Accidentally Commit a Secret
+
+1. **STOP** - Do not push
+2. **Rotate the secret immediately**
+3. **Remove from git history** (use `git filter-branch` or BFG)
+4. **Notify security team** if already pushed

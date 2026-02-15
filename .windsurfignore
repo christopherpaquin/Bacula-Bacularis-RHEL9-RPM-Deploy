@@ -1,0 +1,44 @@
+# Windsurf AI Editor - Context Exclusions
+# Files and directories to exclude from AI context indexing
+# Similar to .gitignore but for AI context
+
+# Virtual environments and dependencies
+.venv/
+venv/
+node_modules/
+.env/
+
+# Build artifacts
+dist/
+build/
+out/
+*.egg-info/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Logs and temporary files
+*.log
+artifacts/
+.pre-commit-cache/
+*.tmp
+*.cache
+
+# Large data files (exclude from context but not from git)
+*.csv
+*.parquet
+*.db
+*.sqlite
+*.sqlite3
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Git internals
+.git/

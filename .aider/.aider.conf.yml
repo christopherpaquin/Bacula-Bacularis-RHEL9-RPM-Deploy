@@ -1,0 +1,39 @@
+# Aider Configuration for AI Guardrails
+
+# Model selection
+model: gpt-4
+# Files to read for context
+read:
+  - CONTEXT.md
+  - CLAUDE.md
+  - CONTRIBUTING.md
+  - README.md
+  - .cursor/rules/006_security.mdc
+# Pre-commit integration
+lint-cmd: "pre-commit run --all-files"
+# Auto-commit behavior
+auto-commits: false
+attribute-commit-message-author: false
+attribute-commit-message-committer: false
+# Pre-commit message prompt
+commit-prompt: |
+  Ensure all changes comply with standards in CONTEXT.md:
+  - No secrets or credentials in code
+  - Bash scripts have 'set -euo pipefail'
+  - Python functions have type hints
+  - YAML uses .yaml extension and 2-space indent
+  - JSON uses 2-space indent, no trailing commas
+  - Documentation is updated
+  - Pre-commit checks pass
+# Git ignore patterns
+gitignore: true
+# Show diffs
+show-diffs: true
+# Pretty output
+pretty: true
+# Map files for better context
+map-tokens: 1024
+# Check for repo map updates
+map-refresh: auto
+# Voice settings (if using voice)
+voice-language: en

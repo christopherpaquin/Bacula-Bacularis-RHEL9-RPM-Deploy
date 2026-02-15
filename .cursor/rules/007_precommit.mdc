@@ -1,0 +1,120 @@
+---
+description: Pre-commit workflow and quality gates
+priority: 50
+globs:
+  - "**/*"
+keywords:
+  - commit
+  - pre-commit
+  - quality
+---
+
+# Pre-commit Workflow
+
+## Mandatory Quality Gate
+
+Pre-commit is **NOT OPTIONAL**. All commits must pass quality checks.
+
+## Setup (One-time)
+
+```bash
+# Install pre-commit
+pip install pre-commit
+
+# Install hooks (REQUIRED)
+pre-commit install
+pre-commit install --hook-type commit-msg
+```
+
+## Before Every Commit
+
+Run pre-commit to check your changes:
+
+```bash
+# If scripts/run-precommit.sh exists, use it
+./scripts/run-precommit.sh
+
+# Otherwise, run pre-commit directly
+pre-commit run --all-files
+```
+
+## What Pre-commit Checks
+
+Typical checks include:
+- ✅ Formatting (Python, Shell, YAML, JSON, Markdown)
+- ✅ Linting (Code quality, style violations)
+- ✅ Security (Secret detection, private keys)
+- ✅ File integrity (Symlinks, executables, line endings)
+- ✅ Git hygiene (Merge conflicts, large files)
+
+## Workflow
+
+```bash
+# 1. Make changes
+vim myfile.py
+
+# 2. Run pre-commit
+./scripts/run-precommit.sh
+
+# 3. Fix any issues
+# Pre-commit often auto-fixes them
+
+# 4. Run again if files were modified
+./scripts/run-precommit.sh
+
+# 5. Commit when all checks pass
+git add myfile.py
+git commit -m "Add feature X"
+```
+
+## Auto-fixes
+
+Many hooks auto-fix issues:
+- Trailing whitespace removal
+- EOF fixing
+- JSON/YAML formatting
+- Import sorting
+
+**After auto-fixes, run pre-commit again!**
+
+## If Pre-commit Fails
+
+1. Read the error message carefully
+2. Check `artifacts/pre-commit.log` for details
+3. Fix the issues
+4. Run pre-commit again
+5. Repeat until all checks pass
+
+## Never Skip Pre-commit
+
+**CRITICAL - ABSOLUTE RULE:**
+
+❌ **NEVER use** `git commit --no-verify`
+❌ **NEVER run** `./scripts/manage-precommit-hooks.sh disable <hook>`
+❌ **NEVER modify** `.pre-commit-config.yaml` to skip checks
+❌ **NEVER bypass** quality checks
+❌ **NEVER suggest** "temporarily" disabling hooks
+
+**This rule has NO exceptions. Pre-commit hooks are mandatory.**
+
+**Why:**
+- Pre-commit hooks are security and quality gates
+- Bypassing defeats the entire purpose of this framework
+- CI runs same checks - bypassing locally just delays failure
+- "Temporary" bypasses become permanent
+- Quality debt compounds
+
+**If hooks fail:**
+1. Read error output
+2. Fix the issues
+3. Run pre-commit again
+4. Commit when passing
+
+## CI Enforcement
+
+Even if you skip pre-commit locally (don't!), CI will:
+- Run ALL the same checks
+- Block PR merges if checks fail
+- Upload failure logs for review
+
+**Bottom line: Pre-commit checks are mandatory.**
