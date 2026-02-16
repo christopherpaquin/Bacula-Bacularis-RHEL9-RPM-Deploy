@@ -1,4 +1,4 @@
-# 🛡️ Backula + Bacularis Install on RHEL 9 with RHEL 10 Hypervisor Clients
+# 🛡️ Bacula + Bacularis Install on RHEL 9 with RHEL 10 Hypervisor Clients
 
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
